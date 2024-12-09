@@ -1,18 +1,23 @@
 import { createQuestions, getAllQuestions } from "@/app/db/functions";
-import { GetAllQuestionsFilter, QuestionSet } from "@/app/types";
+import { GetAllQuestionsFilter } from "@/app/types";
 
 export async function GET(
     request: Request,
 ) {
-    const filters : GetAllQuestionsFilter | undefined = await request.json()
-    return Response.json(getAllQuestions(filters))
+    let filters : GetAllQuestionsFilter | undefined = undefined
+    try {
+        filters = await request.json()
+    } catch (error) {
+        
+    }
+    return Response.json(await getAllQuestions(filters))
 }
 
 export async function POST(
     request: Request,
 ) {
     const questionSet : Questionnaire = await request.json()
-    return createQuestions(questionSet.questions)
+    return await createQuestions(questionSet.questions)
 }
 
 
