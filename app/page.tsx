@@ -109,19 +109,21 @@ export default function Home() {
 
   return (
     <main className="p-4">
-      <FileUploadComponent onLoad={(questions) => {
-        setFilteredQuestions(questions)
-        getMetadata().then((metadata) => setMetadata(metadata))
-      }}/>
-      <button
-        onClick={handleFetchQuestions}
-        className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-      >
-        Fetch All Questions
-      </button>
+      <div className="flex sm:space-x-4 flex-col sm:flex-row space-x-0">
+        <FileUploadComponent onLoad={(questions) => {
+          setFilteredQuestions(questions)
+          getMetadata().then((metadata) => setMetadata(metadata))
+        }} />
+        <button
+          onClick={handleFetchQuestions}
+          className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Fetch All Questions
+        </button>
+      </div>
 
       <div className="mt-6 mb-4 space-y-4 text-black">
-        <div className="flex space-x-4">
+        <div className="flex sm:space-x-4 flex-col sm:flex-row space-x-0">
           <select
             onChange={(e) => setSelectedDifficulty(e.target.value)}
             className="p-2 border rounded"
