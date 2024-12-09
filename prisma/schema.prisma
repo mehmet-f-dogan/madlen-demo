@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Question {
+  id               String          @id @default(cuid())
+  question_text    String
+  context_pages    Int[]
+  difficulty_level DifficultyLevel
+  cognitive_level  CognitiveLevel
+  key_concepts     String[]
+  course_name      String
+  model_answer     ModelAnswer?
+  grading_criteria String[]
+}
+
+model ModelAnswer {
+  id                  String               @id @default(cuid())
+  main_argument       String
+  key_points          String[]
+  supporting_evidence SupportingEvidence[]
+  conclusion          String
+  question            Question             @relation(fields: [question_id], references: [id])
+  question_id         String               @unique
+}
+
+model SupportingEvidence {
+  id              String      @id @default(cuid())
+  point           String
+  page_reference  Int
+  model_answer    ModelAnswer @relation(fields: [model_answer_id], references: [id])
+  model_answer_id String
+}
+
+enum DifficultyLevel {
+  basic
+  intermediate
+  advanced
+}
+
+enum CognitiveLevel {
+  knowledge
+  comprehension
+  application
+  analysis
+  synthesis
+  evaluation
+}
