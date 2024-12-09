@@ -6,7 +6,7 @@ export async function GET(
     { params }: { params: Promise<{ id: string }> }
 ) {
     const id = (await params).id
-    const question = getQuestion(id)
+    const question = await getQuestion(id)
 
     if (!question) {
         return new Response("Question not found.", {
@@ -24,7 +24,7 @@ export async function PUT(
 ) {
     const id = (await params).id
     const updateData : UpdateQuestion = await request.json()
-    const result = updateQuestion(id, updateData)
+    const result = await updateQuestion(id, updateData)
     if (!result) {
         return new Response(null, {
             status: 400,
@@ -40,7 +40,7 @@ export async function DELETE(
     { params }: { params: Promise<{ id: string }> }
 ) {
     const id = (await params).id
-    const question = deleteQuestion(id)
+    const question = await deleteQuestion(id)
     if (!question) {
         return new Response("Question not found.", {
             status: 404,
